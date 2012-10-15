@@ -47,6 +47,7 @@ void keyboard_init(void)
 void keyboard_proc(void)
 {
     uint8_t fn_bits = 0;
+	uint8_t	tmpCode;
 #ifdef EXTRAKEY_ENABLE
     uint16_t consumer_code = 0;
     uint16_t system_code = 0;
@@ -75,81 +76,48 @@ void keyboard_proc(void)
         for (int col = 0; col < matrix_cols(); col++) {
             if (!matrix_is_on(row, col)) continue;
 
-            uint8_t code = layer_get_keycode(row, col);
-            if (code == KB_NO) {
-                // do nothing
-            } else if (IS_MOD(code)) {
-                host_add_mod_bit(MOD_BIT(code));
-            } else if (IS_FN(code)) {
-                fn_bits |= FN_BIT(code);
-            }
-// TODO: use table or something
-#ifdef EXTRAKEY_ENABLE
-            // System Control
-            else if (code == KB_SYSTEM_POWER) {
-#ifdef HOST_PJRC
-                if (suspend && remote_wakeup) {
-                    usb_remote_wakeup();
-                }
-#endif
-                system_code = SYSTEM_POWER_DOWN;
-            } else if (code == KB_SYSTEM_SLEEP) {
-                system_code = SYSTEM_SLEEP;
-            } else if (code == KB_SYSTEM_WAKE) {
-                system_code = SYSTEM_WAKE_UP;
-            }
+            uint16_t code = layer_get_keycode(row, col);
+			tmpCode = (uint8_t)(code );
+			// Normal Keycode
+			if ( (code & 0xFF00) == 0x0700 ) {
+            	if (code == KB_NO) {
+            	    // do nothing
+            	} else if (IS_MOD(code)) {
+            	    host_add_mod_bit(MOD_BIT(tmpCode));
+            	} else if (IS_FN(code)) {
+            	    fn_bits |= FN_BIT(tmpCode);
+            	} else {
+                	host_add_key(tmpCode);
+				}
+			} 
+	#ifdef EXTRAKEY_ENABLE
+	        // System Control
+			else if ( (code & 0xFF00) == 0x0100 ) {
+	            if (code == KB_SYSTEM_POWER) {
+	#ifdef HOST_PJRC
+	                if (suspend && remote_wakeup) {
+	                    usb_remote_wakeup();
+	                }
+	#endif
+	                system_code = SYSTEM_POWER_DOWN;
+	            } else if (code == KB_SYSTEM_SLEEP) {
+	                system_code = SYSTEM_SLEEP;
+	            } else if (code == KB_SYSTEM_WAKE) {
+	                system_code = SYSTEM_WAKE_UP;
+	            }
+			} 
             // Consumer Page
-            else if (code == KB_AUDIO_MUTE) {
-                consumer_code = AUDIO_MUTE;
-            } else if (code == KB_AUDIO_VOL_UP) {
-                consumer_code = AUDIO_VOL_UP;
-            } else if (code == KB_AUDIO_VOL_DOWN) {
-                consumer_code = AUDIO_VOL_DOWN;
-            }
-            else if (code == KB_MEDIA_NEXT_TRACK) {
-                consumer_code = TRANSPORT_NEXT_TRACK;
-            } else if (code == KB_MEDIA_PREV_TRACK) {
-                consumer_code = TRANSPORT_PREV_TRACK;
-            } else if (code == KB_MEDIA_STOP) {
-                consumer_code = TRANSPORT_STOP;
-            } else if (code == KB_MEDIA_PLAY_PAUSE) {
-                consumer_code = TRANSPORT_PLAY_PAUSE;
-            } else if (code == KB_MEDIA_SELECT) {
-                consumer_code = AL_CC_CONFIG;
-            }
-            else if (code == KB_MAIL) {
-                consumer_code = AL_EMAIL;
-            } else if (code == KB_CALCULATOR) {
-                consumer_code = AL_CALCULATOR;
-            } else if (code == KB_MY_COMPUTER) {
-                consumer_code = AL_LOCAL_BROWSER;
-            }
-            else if (code == KB_WWW_SEARCH) {
-                consumer_code = AC_SEARCH;
-            } else if (code == KB_WWW_HOME) {
-                consumer_code = AC_HOME;
-            } else if (code == KB_WWW_BACK) {
-                consumer_code = AC_BACK;
-            } else if (code == KB_WWW_FORWARD) {
-                consumer_code = AC_FORWARD;
-            } else if (code == KB_WWW_STOP) {
-                consumer_code = AC_STOP;
-            } else if (code == KB_WWW_REFRESH) {
-                consumer_code = AC_REFRESH;
-            } else if (code == KB_WWW_FAVORITES) {
-                consumer_code = AC_BOOKMARKS;
-            }
+			else if ( (code & 0xF000) == 0xC000 ) {
+            	consumer_code = (code & 0x0FFF);
+			}
 #endif
-            else if (IS_KEY(code)) {
-                host_add_key(code);
-            }
 #ifdef MOUSEKEY_ENABLE
-            else if (IS_MOUSEKEY(code)) {
-                mousekey_decode(code);
+            else if (IS_MOUSEKEY(tmpCode)) {
+                mousekey_decode(tmpCode);
             }
 #endif
             else {
-                debug("ignore keycode: "); debug_hex(code); debug("\n");
+                debug("ignore keycode: "); debug_hex(tmpCode); debug("\n");
             }
         }
     }

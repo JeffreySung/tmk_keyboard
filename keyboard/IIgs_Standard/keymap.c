@@ -50,7 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	{ R10C0,R10C1, R10C2, R10C3, R10C4,R10C5, KB_NO, KB_NO} \
 }
 
-#define KEYCODE(layer, row, col) (pgm_read_byte(&keymaps[(layer)][(row)][(col)]))
+#define KEYCODE(layer, row, col) (pgm_read_word(&keymaps[(layer)][(row)][(col)]))
 
 
 // Assign Fn key(0-7) to a layer to which switch with the Fn key pressed.
@@ -67,7 +67,7 @@ static const uint8_t PROGMEM fn_layer[] = {
 
 // Assign Fn key(0-7) to a keycode sent when release Fn key without use of the layer.
 // See layer.c for details.
-static const uint8_t PROGMEM fn_keycode[] = {
+static const uint16_t PROGMEM fn_keycode[] = {
     KB_NO,          // Fn0
     KB_NO,          // Fn1
     KB_SLSH,        // Fn2
@@ -78,7 +78,7 @@ static const uint8_t PROGMEM fn_keycode[] = {
     KB_NO           // Fn7
 };
 
-static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+static const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Layer 0: Default Layer
      * ,-----------------------------------------------------------. ,---------------,
      * |                    POWER                                  | |               |  
@@ -118,7 +118,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------------------------------------------' `---------------'
      */
     KEYMAP(						KB_PWR, \
-		   KB_ESC, KB_1,   KB_2,   KB_3,   KB_4,   KB_5,   KB_6,   KB_7,   KB_8,   KB_9,   KB_0,    KB_MINS,KB_EQL, KB_BSPC, KB_FN1,   KB_PEQL, KB_PSLS, KB_MUTE, \
+		   KB_ESC, KB_1,   KB_2,   KB_3,   KB_4,   KB_5,   KB_6,   KB_7,   KB_8,   KB_9,   KB_0,    KB_MINS,KB_EQL, KB_BSPC, KB_FN1,   KB_PEQL, KB_MEJT, KB_MUTE, \
            KB_TAB, KB_Q,   KB_W,   KB_E,   KB_R,   KB_T,   KB_Y,   KB_U,   KB_I,   KB_O,   KB_P,    KB_LBRC,KB_RBRC,         KB_INS,   KB_P8,   KB_PGUP,   KB_VOLU, \
            KB_LCTL,KB_A,   KB_S,   KB_D,   KB_F,   KB_G,   KB_H,   KB_J,   KB_K,   KB_L,   KB_SCLN, KB_QUOT,KB_ENT,          KB_DEL,   KB_UP,   KB_PGDN,   KB_VOLD, \
            KB_LSFT,KB_Z,   KB_X,   KB_C,   KB_V,   KB_B,   KB_N,   KB_M,   KB_COMM,KB_DOT, KB_SLSH, 						 KB_LEFT,  KB_DOWN,   KB_RIGHT, \
@@ -126,7 +126,7 @@ static const uint8_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 
-uint8_t keymap_get_keycode(uint8_t layer, uint8_t row, uint8_t col)
+uint16_t keymap_get_keycode(uint8_t layer, uint8_t row, uint8_t col)
 {
     return KEYCODE(layer, row, col);
 }
@@ -136,7 +136,7 @@ uint8_t keymap_fn_layer(uint8_t fn_bits)
     return pgm_read_byte(&fn_layer[biton(fn_bits)]);
 }
 
-uint8_t keymap_fn_keycode(uint8_t fn_bits)
+uint16_t keymap_fn_keycode(uint8_t fn_bits)
 {
-    return pgm_read_byte(&fn_keycode[(biton(fn_bits))]);
+    return pgm_read_word(&fn_keycode[(biton(fn_bits))]);
 }

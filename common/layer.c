@@ -87,9 +87,9 @@ static bool layer_used = false;
 static uint8_t new_layer(uint8_t fn_bits);
 
 
-uint8_t layer_get_keycode(uint8_t row, uint8_t col)
+uint16_t layer_get_keycode(uint8_t row, uint8_t col)
 {
-    uint8_t code = keymap_get_keycode(current_layer, row, col);
+    uint16_t code = keymap_get_keycode(current_layer, row, col);
     // normal key or mouse key
     if ((IS_KEY(code) || IS_MOUSEKEY(code))) {
         layer_used = true;

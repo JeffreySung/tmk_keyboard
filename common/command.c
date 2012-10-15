@@ -73,7 +73,8 @@ uint8_t command_extra(void)
 
 static uint8_t command_common(void)
 {
-    switch (host_get_first_key()) {
+    uint16_t keycode = 0x0700 | (uint16_t)(host_get_first_key());
+    switch (keycode) {
         case KB_H:
             help();
             break;

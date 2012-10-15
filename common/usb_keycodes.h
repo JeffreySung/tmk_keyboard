@@ -121,6 +121,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define KB_MNXT KB_MEDIA_NEXT_TRACK
 #define KB_MPRV KB_MEDIA_PREV_TRACK
 #define KB_MSTP KB_MEDIA_STOP
+#define KB_MEJT KB_MEDIA_EJECT
 #define KB_MPLY KB_MEDIA_PLAY_PAUSE
 #define KB_MSEL KB_MEDIA_SELECT
 #define KB_MAIL KB_MAIL
@@ -137,30 +138,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* Special keycode */
 enum special_keycodes {
-    /* System Control */
-    KB_SYSTEM_POWER = 0xB0,
-    KB_SYSTEM_SLEEP,
-    KB_SYSTEM_WAKE,
-
     /* Consumer Page */
-    KB_AUDIO_MUTE,
-    KB_AUDIO_VOL_UP,
-    KB_AUDIO_VOL_DOWN,
-    KB_MEDIA_NEXT_TRACK,
-    KB_MEDIA_PREV_TRACK,
-    KB_MEDIA_STOP,
-    KB_MEDIA_PLAY_PAUSE,
-    KB_MEDIA_SELECT,
-    KB_MAIL,
-    KB_CALCULATOR,
-    KB_MY_COMPUTER,
-    KB_WWW_SEARCH,
-    KB_WWW_HOME,
-    KB_WWW_BACK,        /* 0xC0 */
-    KB_WWW_FORWARD,
-    KB_WWW_STOP,
-    KB_WWW_REFRESH,
-    KB_WWW_FAVORITES,
 
     /* reserve 0xE0-E7 for Modifiers */
 
@@ -192,7 +170,12 @@ enum special_keycodes {
 };
 
 enum keycodes {
-    KB_NO = 0,
+	// Generic Desktop Page (0x01)
+	// System Contol
+	KB_SYSTEM_POWER = 0x0181,
+	KB_SYSTEM_SLEEP,
+	KB_SYSTEM_WAKE,
+    KB_NO = 0x0700,
     KB_ROLL_OVER,
     KB_POST_FAIL,
     KB_UNDEFINED,
@@ -359,8 +342,7 @@ enum keycodes {
     KB_EXSEL,
 
     /* NOTE: 0xB0-DF are used as special_keycodes */
-#if 0
-    KB_KP_00 = 0xB0,
+    KB_KP_00 = 0x07B0,
     KB_KP_000,
     KB_THOUSANDS_SEPARATOR,
     KB_DECIMAL_SEPARATOR,
@@ -406,10 +388,9 @@ enum keycodes {
     KB_KP_OCTAL,
     KB_KP_DECIMAL,
     KB_KP_HEXADECIMAL,
-#endif
 
     /* Modifiers */
-    KB_LCTRL = 0xE0,
+    KB_LCTRL = 0x07E0,
     KB_LSHIFT,
     KB_LALT,
     KB_LGUI,
@@ -419,6 +400,54 @@ enum keycodes {
     KB_RGUI,
 
     /* NOTE: 0xE8-FF are used as special_keycodes */
+	// Consumer Page (0x0C) : For keycode range, 0x0C -> 0xC
+	KB_CS_CONTROL =		0xC001,
+	KB_CS_NUMKEYPAD,
+	KB_CS_PRGMBUTN,
+	KB_CS_MIC,
+	KB_CS_HEADPHONE,
+	KB_CS_GREQ,
+	/* 07-1F Reserved */
+	KB_CS_10 = 0xC020,
+	KB_CS_100,
+	KB_CS_AMPM,
+	/* 23-3F Reserved */
+	KB_CS_POWER = 0xC030,
+	KB_CS_RESET,
+	KB_CS_SLEEP,
+	KB_CS_SLEEPAFTER,
+	KB_CS_SLEEPMODE,
+	KB_CS_ILLUMINATION,
+	KB_CS_FCNBUTTONS,
+	/* 37-3F Reserverd */
+	KB_CS_MENU = 0xC040,
+	KB_CS_MENUPICK,
+	KB_CS_MENUUP,
+	KB_CS_MENUDOWN,
+	KB_CS_MENULEFT,
+	KB_CS_MENURIGHT,
+	KB_CS_MENUESC,
+	KB_CS_MENUVALINC,
+	KB_CS_MENUVALDEC,
+	/* 49-5F Reserved */
+    KB_MEDIA_NEXT_TRACK = 	0xC0B5,
+    KB_MEDIA_PREV_TRACK = 	0xC0B6,
+    KB_MEDIA_STOP = 		0xC0B7,
+	KB_MEDIA_EJECT =		0xC0CC,
+    KB_MEDIA_PLAY_PAUSE = 	0xC0CD,
+    KB_MEDIA_SELECT = 		0xC0B5,
+	KB_AUDIO_MUTE = 		0xC0E2,
+	KB_AUDIO_VOL_UP = 		0xC0E9,
+	KB_AUDIO_VOL_DOWN = 	0xC0EA,
+    KB_MAIL = 				0xC18A,
+    KB_CALCULATOR = 		0xC192,
+    KB_MY_COMPUTER = 		0xC194,
+    KB_WWW_SEARCH = 		0xC221,
+    KB_WWW_HOME = 			0xC223,
+    KB_WWW_BACK = 			0xC224,   
+    KB_WWW_FORWARD = 		0xC225,
+    KB_WWW_STOP =			0xC226,
+    KB_WWW_REFRESH = 		0xC227,
+    KB_WWW_FAVORITES = 		0xC22A,
 };
-
 #endif /* USB_KEYCODES_H */

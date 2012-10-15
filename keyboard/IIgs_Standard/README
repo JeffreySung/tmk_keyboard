@@ -16,6 +16,14 @@ History
 - 2012.09.17 First Release
 - 2012.09.17 CapsLock support
 - 2012.09.19 Power button added
+- 2012.10.09 Debounce bug fixed
+- 2012.10.15 keycodes changed from byte to 2 bytes.
+             Comsumer/System keycodes added and merged.
+			 Eject key added(Verified only in Mac)
+			 Following common files are changed
+             common/usb_keycodes.h
+			 common/command.c
+			 common/keyboard.c
 Build
 =====
 0. Just Type "Make" and return.
@@ -36,10 +44,7 @@ PJRC Teensy
 
 To Do
 =====
-0. When DEBOUNCE defined, there is a errors.
 1. Layer Change by toggling Clear Key
-2. Eject Key add. (following files should be modified.)
-		common/usb_keycodes.h
-		common/keyboard.c
-3. Use bluetooth
+2. Use bluetooth
+3. System Wakeup when sleep
 EOF
