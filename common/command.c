@@ -194,9 +194,9 @@ static uint8_t command_common(void)
         case KB_0:
             switch_layer(0);
             break;
-        case KB_1:
-            switch_layer(1);
-            break;
+//        case KB_1:
+//            switch_layer(1);
+//            break;
         case KB_2:
             switch_layer(2);
             break;

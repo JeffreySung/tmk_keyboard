@@ -113,13 +113,14 @@ void layer_switching(uint8_t fn_bits)
         } else {
             if (!keymap_fn_keycode(BIT_SUBST(fn_bits, sent_fn)) ||
                     timer_elapsed(last_timer) > LAYER_SWITCH_DELAY) {
+				//debug("BIT_SUBST:");debug_hex(keymap_fn_keycode(BIT_SUBST(fn_bits, sent_fn))); debug("\n");
                 uint8_t _layer_to_switch = new_layer(BIT_SUBST(fn_bits, sent_fn));
                 if (current_layer != _layer_to_switch) { // not switch layer yet
                     debug("Fn case: 1,2,3(LAYER_SWITCH_DELAY passed)\n");
                     debug("Switch Layer: "); debug_hex(current_layer);
                     current_layer = _layer_to_switch;
                     layer_used = false;
-                    debug(" -> "); debug_hex(current_layer); debug("\n");
+                    debug(" -> "); debug_hex(current_layer); debug("\n\n");
                 }
             } else {
                 if (host_has_anykey()) { // other keys is pressed
@@ -129,10 +130,12 @@ void layer_switching(uint8_t fn_bits)
                         // send only Fn key first
                         uint8_t tmp_mods = keyboard_report->mods;
                         host_add_code(keymap_fn_keycode(_fn_to_send));
+						debug("add_code:"); debug_hex(keymap_fn_keycode(_fn_to_send)); debug("\n");
                         host_set_mods(last_mods);
                         host_send_keyboard_report();
                         host_set_mods(tmp_mods);
                         host_del_code(keymap_fn_keycode(_fn_to_send));
+						debug("del_code:"); debug_hex(keymap_fn_keycode(_fn_to_send)); debug("\n\n");
                         sent_fn |= _fn_to_send;
                     }
                 }
@@ -165,6 +168,7 @@ void layer_switching(uint8_t fn_bits)
                     debug("Fn case: 6(repeat)\n");
                 }
             }
+			debug("\n");
         }
         // released Fn
         if ((fn_changed = BIT_SUBST(last_fn, fn_bits))) {
@@ -175,16 +179,18 @@ void layer_switching(uint8_t fn_bits)
                     // send only Fn key first
                     uint8_t tmp_mods = keyboard_report->mods;
                     host_add_code(keymap_fn_keycode(fn_changed));
+					debug("add_code:"); debug_hex(keymap_fn_keycode(fn_changed)); debug("\n");
                     host_set_mods(last_mods);
                     host_send_keyboard_report();
                     host_set_mods(tmp_mods);
                     host_del_code(keymap_fn_keycode(fn_changed));
+					debug("del_code:"); debug_hex(keymap_fn_keycode(fn_changed)); debug("\n");
                     sent_fn |= fn_changed;
                 }
             }
             debug("Switch Layer(released Fn): "); debug_hex(current_layer);
             current_layer = new_layer(BIT_SUBST(fn_bits, sent_fn));
-            debug(" -> "); debug_hex(current_layer); debug("\n");
+            debug(" -> "); debug_hex(current_layer); debug("\n\n");
         }
 
         layer_used = false;
@@ -196,6 +202,7 @@ void layer_switching(uint8_t fn_bits)
     for (uint8_t i = 0; i < 8; i++) {
         if ((sent_fn & fn_bits) & (1<<i)) {
             host_add_code(keymap_fn_keycode(1<<i));
+			debug("add_code:"); debug_hex(keymap_fn_keycode(1<<i)); debug("\n");
         }
     }
 }

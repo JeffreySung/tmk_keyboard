@@ -24,6 +24,10 @@ History
              common/usb_keycodes.h
 			 common/command.c
 			 common/keyboard.c
+- 2013.02.15 Function Key add & layout change
+             In Any layout, clear + 1 ~ delete acts as F1 ~ F13
+             OPTN+CTRL+SHIFT+CTRL+  0/2 layout change
+
 Build
 =====
 0. Just Type "Make" and return.

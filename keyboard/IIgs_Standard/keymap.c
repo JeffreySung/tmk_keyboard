@@ -106,7 +106,28 @@ static const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * ,-----------------------------------------------------------. ,---------------,
      * |                    POWER                                  | |               |  
      * |-----------------------------------------------------------| |---------------|
-     * |Esc|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|Backsp | |NLK| = | / | * |
+     * |Esc| F1| F2| F3| F4| F5| F6| F7| F8| F9|F10|F11|F12|  F13  | |FN2| = |EJT|MTE|
+     * |-----------------------------------------------------------| |---------------|
+     * |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|     | |INS| 8 |PGU|V+ |
+     * |-----------------------------------------------------'     | |---------------|
+     * |Contro|  A|  S|  D|  F|  G|  H|  J|  K|  L|Fn3|  '|Return  | |DEL|UP |PGD|V- |
+     * |-----------------------------------------------------------| |---------------|
+     * |Shift   |  Z|  X|  C|  V|  B|  N|  M|  ,|  .|   /   |Shift | |FN1|FN2|RGT| E |
+     * |-----------------------------------------------------------| |-----------| N |
+     * |CAPS|Alt |Gui  |`  |SPC               |BSLS  |LFT|RGT|DN|UP| |   0   | . | T |
+     * `-----------------------------------------------------------' `---------------'
+     */
+    KEYMAP(						KB_PWR, \
+		   KB_ESC, KB_F1,  KB_F2,  KB_F3,  KB_F4,  KB_F5,  KB_F6,  KB_F7,  KB_F8,  KB_F9,  KB_F10,  KB_F11 ,KB_F12, KB_F13,  KB_FN1,   KB_PEQL, KB_MEJT, KB_MUTE, \
+           KB_TAB, KB_Q,   KB_W,   KB_E,   KB_R,   KB_T,   KB_Y,   KB_U,   KB_I,   KB_O,   KB_P,    KB_LBRC,KB_RBRC,         KB_INS,   KB_P8,   KB_PGUP,   KB_VOLU, \
+           KB_LCTL,KB_A,   KB_S,   KB_D,   KB_F,   KB_G,   KB_H,   KB_J,   KB_K,   KB_L,   KB_SCLN, KB_QUOT,KB_ENT,          KB_DEL,   KB_UP,   KB_PGDN,   KB_VOLD, \
+           KB_LSFT,KB_Z,   KB_X,   KB_C,   KB_V,   KB_B,   KB_N,   KB_M,   KB_COMM,KB_DOT, KB_SLSH, 						 KB_FN1,   KB_FN2,  KB_RIGHT, \
+           KB_CAPS,KB_LALT,KB_LGUI,KB_GRV, KB_SPC, KB_BSLS,KB_LEFT,KB_RGHT,KB_DOWN,KB_UP,                                    KB_P0,    KB_PDOT, KB_PENT),
+    /* Layer 1: Tenkey use Layer
+     * ,-----------------------------------------------------------. ,---------------,
+     * |                    POWER                                  | |               |  
+     * |-----------------------------------------------------------| |---------------|
+     * |Esc|  1|  2|  3|  4|  5|  6|  7|  8|  9|  0|  -|  =|Backsp | |FN1| = |Ejt|Mut|
      * |-----------------------------------------------------------| |---------------|
      * |Tab  |  Q|  W|  E|  R|  T|  Y|  U|  I|  O|  P|  [|  ]|     | |INS| 8 |PGU|V+ |
      * |-----------------------------------------------------'     | |---------------|
@@ -118,7 +139,7 @@ static const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * `-----------------------------------------------------------' `---------------'
      */
     KEYMAP(						KB_PWR, \
-		   KB_ESC, KB_1,   KB_2,   KB_3,   KB_4,   KB_5,   KB_6,   KB_7,   KB_8,   KB_9,   KB_0,    KB_MINS,KB_EQL, KB_BSPC, KB_FN1,   KB_PEQL, KB_MEJT, KB_MUTE, \
+		   KB_ESC, KB_1,   KB_2,   KB_3,   KB_4,   KB_5,   KB_6,   KB_7,   KB_8,   KB_9,   KB_0,    KB_MINS,KB_EQL, KB_BSPC, KB_FN1,   KB_PEQL, KB_MEJT,   KB_MUTE, \
            KB_TAB, KB_Q,   KB_W,   KB_E,   KB_R,   KB_T,   KB_Y,   KB_U,   KB_I,   KB_O,   KB_P,    KB_LBRC,KB_RBRC,         KB_INS,   KB_P8,   KB_PGUP,   KB_VOLU, \
            KB_LCTL,KB_A,   KB_S,   KB_D,   KB_F,   KB_G,   KB_H,   KB_J,   KB_K,   KB_L,   KB_SCLN, KB_QUOT,KB_ENT,          KB_DEL,   KB_UP,   KB_PGDN,   KB_VOLD, \
            KB_LSFT,KB_Z,   KB_X,   KB_C,   KB_V,   KB_B,   KB_N,   KB_M,   KB_COMM,KB_DOT, KB_SLSH, 						 KB_LEFT,  KB_DOWN,   KB_RIGHT, \
@@ -136,7 +157,7 @@ uint8_t keymap_fn_layer(uint8_t fn_bits)
     return pgm_read_byte(&fn_layer[biton(fn_bits)]);
 }
 
-uint16_t keymap_fn_keycode(uint8_t fn_bits)
+uint8_t keymap_fn_keycode(uint8_t fn_bits)
 {
-    return pgm_read_word(&fn_keycode[(biton(fn_bits))]);
+    return (uint8_t)(pgm_read_word(&fn_keycode[(biton(fn_bits))]));
 }

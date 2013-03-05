@@ -143,7 +143,7 @@ enum special_keycodes {
     /* reserve 0xE0-E7 for Modifiers */
 
     /* Layer Switching */
-    KB_FN0 = 0xE8,
+    KB_FN0 = 0x07E8,
     KB_FN1,
     KB_FN2,
     KB_FN3,
@@ -153,7 +153,7 @@ enum special_keycodes {
     KB_FN7,
 
     /* Mousekey */
-    KB_MS_UP = 0xF0,
+    KB_MS_UP = 0x07F0,
     KB_MS_DOWN,
     KB_MS_LEFT,
     KB_MS_RIGHT,
